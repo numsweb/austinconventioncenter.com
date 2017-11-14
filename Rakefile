@@ -63,11 +63,11 @@ namespace :contentful do
   end
 
   desc "Import ACC staging Contentful data"
-  task :acc do
+  task :acc_staging do
     config = Jekyll.configuration["contentful"]
     config["spaces"].select! { |space| space.include?("acc_staging") }
 
-    config["spaces"][0]["acc"].merge!({
+    config["spaces"][0]["acc_staging"].merge!({
                                           "space" => ENV["CONTENTFUL_ACC_STAGING_SPACE_ID"],
                                           "access_token" => ENV["CONTENTFUL_ACC_STAGING_ACCESS_TOKEN"]
                                       })
@@ -76,11 +76,11 @@ namespace :contentful do
   end
 
   desc "Import PEC staging Contentful data"
-  task :pec do
+  task :pec_staging do
     config = Jekyll.configuration["contentful"]
     config["spaces"].select! { |space| space.include?("pec_staging") }
 
-    config["spaces"][0]["pec"].merge!({
+    config["spaces"][0]["pec_staging"].merge!({
                                           "space" => ENV["CONTENTFUL_PEC_STAGING_SPACE_ID"],
                                           "access_token" => ENV["CONTENTFUL_PEC_STAGING_ACCESS_TOKEN"]
                                       })
@@ -110,11 +110,11 @@ namespace :deploy do
   end
 
   task :acc_stage do
-    exec "SITE=acc S3_BUCKET=test-acc.stage s3_website push --site=_site/acc_staging"
+    exec "SITE=acc_stage S3_BUCKET=test-acc.stage s3_website push --site=_site/acc_staging"
   end
 
   task :pec_stage do
-    exec "SITE=pec S3_BUCKET=test-pec.stage s3_website push --site=_site/pec_staging"
+    exec "SITE=pec_stage S3_BUCKET=test-pec.stage s3_website push --site=_site/pec_staging"
   end
 end
 

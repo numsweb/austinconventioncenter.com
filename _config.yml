@@ -50,6 +50,12 @@ contentful:
     -
       pec:
         <<: *contentful_options
+    -
+      acc_staging:
+        <<: *contentful_options
+    -
+      pec_staging:
+        <<: *contentful_options
 
 defaults:
   -
