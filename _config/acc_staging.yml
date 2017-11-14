@@ -1,0 +1,23 @@
+id: acc_staging
+title: Austin Convention Center - Staging
+url: "https://www.austinconventioncenter.com"
+
+calendar_location: "Austin Convention Center" # Socrata event data location value
+
+footer_address:
+  street: 500 E. Cesar Chavez St.
+  zip_code: 78701
+  phone: (512) 404-4000
+
+google_analytics_id: UA-87703455-2
+facebook_url: http://www.facebook.com/AustinConventionCenter/
+instagram_url: http://www.instagram.com/accdtx/
+youtube_url: https://www.youtube.com/channel/UCUfiBJZM1W58J2uTIssujKQ
+
+contact_sales_form:
+  formspree_email: ConventionSales@austintexas.gov
+
+# Build settings
+destination: _site/acc_staging
+assets:
+  cache: .asset-cache/acc_staging

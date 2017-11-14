@@ -14,14 +14,24 @@ namespace :build do
   task :pec do
     Jekyll::Commands::Build.process(config: ["_config.yml", "_config/pec.yml"])
   end
+
+  desc "Run `jekyll build` with ACC staging configuration (use `foreman start acc_staging` for `jekyll serve`)"
+  task :acc_staging do
+    Jekyll::Commands::Build.process(config: ["_config.yml", "_config/acc_staging.yml"])
+  end
+
+  desc "Run `jekyll build` with PEC staging configuration (use `foreman start pec_staging` for `jekyll serve`)"
+  task :pec_staging do
+    Jekyll::Commands::Build.process(config: ["_config.yml", "_config/pec_staging.yml"])
+  end
 end
 
-desc "Build both ACC and PEC sites"
+desc "Build all ACC and PEC sites"
 task :build do
   if ENV["CI"] || system("which parallel") # On macOS: `brew install parallel` (optional)
     exec("parallel bundle exec rake build:{} ::: acc pec")
   else
-    %w(acc pec).each { |site| Rake::Task["build:#{site}"].invoke }
+    %w(acc pec acc_staging pec_staging).each { |site| Rake::Task["build:#{site}"].invoke }
   end
 end
 
@@ -51,6 +61,32 @@ namespace :contentful do
 
     Jekyll::Commands::Contentful.process([], {}, config)
   end
+
+  desc "Import ACC staging Contentful data"
+  task :acc do
+    config = Jekyll.configuration["contentful"]
+    config["spaces"].select! { |space| space.include?("acc_staging") }
+
+    config["spaces"][0]["acc"].merge!({
+                                          "space" => ENV["CONTENTFUL_ACC_STAGING_SPACE_ID"],
+                                          "access_token" => ENV["CONTENTFUL_ACC_STAGING_ACCESS_TOKEN"]
+                                      })
+
+    Jekyll::Commands::Contentful.process([], {}, config)
+  end
+
+  desc "Import PEC staging Contentful data"
+  task :pec do
+    config = Jekyll.configuration["contentful"]
+    config["spaces"].select! { |space| space.include?("pec_staging") }
+
+    config["spaces"][0]["pec"].merge!({
+                                          "space" => ENV["CONTENTFUL_PEC_STAGING_SPACE_ID"],
+                                          "access_token" => ENV["CONTENTFUL_PEC_STAGING_ACCESS_TOKEN"]
+                                      })
+
+    Jekyll::Commands::Contentful.process([], {}, config)
+  end
 end
 
 desc "Import both ACC and PEC Contentful data"
@@ -66,16 +102,24 @@ multitask :import => [:contentful, :calendar]
 
 namespace :deploy do
   task :acc do
-    exec "SITE=acc S3_BUCKET=www.austinconventioncenter.com s3_website push --site=_site/acc"
+    exec "SITE=acc S3_BUCKET=test-acc.prod s3_website push --site=_site/acc"
   end
 
   task :pec do
-    exec "SITE=pec S3_BUCKET=www.palmereventscenter.com s3_website push --site=_site/pec"
+    exec "SITE=pec S3_BUCKET=test-pec.prod s3_website push --site=_site/pec"
+  end
+
+  task :acc_stage do
+    exec "SITE=acc S3_BUCKET=test-acc.stage s3_website push --site=_site/acc_staging"
+  end
+
+  task :pec_stage do
+    exec "SITE=pec S3_BUCKET=test-pec.stage s3_website push --site=_site/pec_staging"
   end
 end
 
 task :deploy do
-  exec "parallel bundle exec rake deploy:{} ::: acc pec"
+  exec "parallel bundle exec rake deploy:{} ::: acc pec acc_stage pec_stage"
 end
 
 # CI-specific import, build, and deploy commands that toggle between ACC, PEC, or both, depending on

@@ -5,3 +5,7 @@ _site
 _data/contentful
 _data/socrata
 node_modules/
+.DS_Store
+_data/.DS_Store
+.idea/
+.rvmrc
