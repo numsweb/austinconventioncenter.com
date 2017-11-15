@@ -110,11 +110,11 @@ namespace :deploy do
   end
 
   task :acc_stage do
-    exec "SITE=acc_stage S3_BUCKET=test-acc.stage s3_website push --site=_site/acc_staging"
+    exec "SITE=acc_staging S3_BUCKET=test-acc.stage s3_website push --site=_site/acc_staging"
   end
 
   task :pec_stage do
-    exec "SITE=pec_stage S3_BUCKET=test-pec.stage s3_website push --site=_site/pec_staging"
+    exec "SITE=pec_staging S3_BUCKET=test-pec.stage s3_website push --site=_site/pec_staging"
   end
 end
 
