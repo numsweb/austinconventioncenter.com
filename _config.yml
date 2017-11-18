@@ -42,6 +42,20 @@ contentful_options: &contentful_options
     menu: Mappers::ContentBlockMapper
     textBlock: Mappers::ContentBlockMapper
 
+staging_contentful_options: &staging_contentful_options
+  cda_query:
+    limit: 1000
+  all_entries: true
+  show_drafts: true
+  content_types:
+    accordionBlock: Mappers::ContentBlockMapper
+    contactBlock: Mappers::ContentBlockMapper
+    galleryBlock: Mappers::ContentBlockMapper
+    galleryImage: Mappers::GalleryImageMapper
+    menu: Mappers::ContentBlockMapper
+    textBlock: Mappers::ContentBlockMapper
+
+
 contentful:
   spaces:
     -
@@ -52,10 +66,10 @@ contentful:
         <<: *contentful_options
     -
       acc_staging:
-        <<: *contentful_options
+        <<: *staging_contentful_options
     -
       pec_staging:
-        <<: *contentful_options
+        <<: *staging_contentful_options
 
 defaults:
   -

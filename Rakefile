@@ -151,7 +151,12 @@ namespace :ci do
       faraday.adapter Faraday.default_adapter
     end
 
-    connection.post("/api/v1/project/cityofaustin/austinconventioncenter.com/tree/master") do |request|
+    connection.post("/api/v1/project/numsweb/austinconventioncenter.com/tree/master") do |request|
+      request.params["circle-token"] = ENV["CIRCLE_TOKEN"]
+    end
+
+    #build the staging content from the staging branch
+    connection.post("/api/v1/project/numsweb/austinconventioncenter.com/tree/staging") do |request|
       request.params["circle-token"] = ENV["CIRCLE_TOKEN"]
     end
   end
