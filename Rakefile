@@ -156,8 +156,8 @@ namespace :ci do
     end
 
     #build the staging content from the staging branch
-    connection.post("/api/v1/project/numsweb/austinconventioncenter.com/tree/staging") do |request|
-      request.params["circle-token"] = ENV["CIRCLE_TOKEN"]
-    end
+    #connection.post("/api/v1/project/numsweb/austinconventioncenter.com/tree/staging") do |request|
+    #  request.params["circle-token"] = ENV["CIRCLE_TOKEN"]
+    #end
   end
 end
