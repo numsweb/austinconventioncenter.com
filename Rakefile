@@ -29,7 +29,7 @@ end
 desc "Build all ACC and PEC sites"
 task :build do
   if ENV["CI"] || system("which parallel") # On macOS: `brew install parallel` (optional)
-    exec("parallel bundle exec rake build:{} ::: acc pec")
+    exec("parallel bundle exec rake build:{} ::: acc pec acc_staging pec_staging")
   else
     %w(acc pec acc_staging pec_staging).each { |site| Rake::Task["build:#{site}"].invoke }
   end
