@@ -15,6 +15,7 @@ layout: default
     <header class="acc-intro">
       <h2>{{ contentful.description }}</h2>
     </header>
+    <p> Testing </p>
 
     {% assign menu = site.contentful.menu | where_exp: "menu", "menu.name == 'Homepage'" | first %}
     {% include components/menu.html items=menu.items list_classes="acc-button-grid-wide" item_classes="acc-button acc-button-primary" show_description=true %}
