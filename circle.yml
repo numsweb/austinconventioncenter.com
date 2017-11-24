@@ -12,8 +12,6 @@ test:
     - "JEKYLL_ENV=production bundle exec rake ci:build"
 
 deployment:
-  merge:
-    branch:
-      - staging
+    branch: staging
     commands:
       - "bundle exec rake ci:deploy"
