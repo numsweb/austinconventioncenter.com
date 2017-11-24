@@ -119,7 +119,7 @@ namespace :deploy do
 end
 
 task :deploy do
-  exec "parallel bundle exec rake deploy:{} ::: acc_stage pec_stage"
+  exec "parallel bundle exec rake deploy:{} ::: acc_staging pec_staging"
 end
 
 # CI-specific import, build, and deploy commands that toggle between ACC, PEC, or both, depending on
