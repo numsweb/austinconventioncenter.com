@@ -26,12 +26,12 @@ namespace :build do
   end
 end
 
-desc "Build all ACC and PEC sites"
+desc "Build all ACC and PEC staging sites"
 task :build do
   if ENV["CI"] || system("which parallel") # On macOS: `brew install parallel` (optional)
-    exec("parallel bundle exec rake build:{} ::: acc pec acc_staging pec_staging")
+    exec("parallel bundle exec rake build:{} ::: acc_staging pec_staging")
   else
-    %w(acc pec acc_staging pec_staging).each { |site| Rake::Task["build:#{site}"].invoke }
+    %w(acc_staging pec_staging).each { |site| Rake::Task["build:#{site}"].invoke }
   end
 end
 
@@ -119,7 +119,7 @@ namespace :deploy do
 end
 
 task :deploy do
-  exec "parallel bundle exec rake deploy:{} ::: acc pec acc_stage pec_stage"
+  exec "parallel bundle exec rake deploy:{} ::: acc_stage pec_stage"
 end
 
 # CI-specific import, build, and deploy commands that toggle between ACC, PEC, or both, depending on
